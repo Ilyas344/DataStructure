@@ -1,8 +1,10 @@
-package org.example.Collection;
+package org.example.Collection.Impl;
+
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import org.example.Collection.ClassroomDataGroups;
 import org.example.POJO.Student;
 
 import java.util.Arrays;
@@ -10,25 +12,25 @@ import java.util.Arrays;
 @Getter
 @Setter
 @EqualsAndHashCode
-public class StudentAge {
-    private int age;
+public class StudentClass implements ClassroomDataGroups {
+    private int group;
     private Student[] students;
 
-    public StudentAge(int age) {
-        this.age = age;
+    public StudentClass(int group) {
+        this.group = group;
         students = new Student[0];
     }
 
-    public StudentAge() {
+    public StudentClass() {
     }
 
-    public StudentAge(Student[] students) {
-        this.age = students[0].getAge();
+    public StudentClass(Student[] students) {
+        this.group = students[0].getGroup();
         this.students = students;
     }
 
     public void addStudent(Student student) {
-        if (student.getAge() == age) {
+        if (student.getItemRatings().length != 0) {
             Student[] newStudents = new Student[students.length + 1];
             System.arraycopy(students, 0, newStudents, 0, students.length);
             newStudents[students.length] = student;
@@ -36,10 +38,11 @@ public class StudentAge {
         }
     }
 
-    public Student[] getStudents(int age) {
+    @Override
+    public Student[] getStudents(int group) {
         Student[] students = new Student[0];
         for (Student student : this.students) {
-            if (student.getAge() == age) {
+            if (student.getGroup() == group) {
                 Student[] newStudents = new Student[students.length + 1];
                 System.arraycopy(students, 0, newStudents, 0, students.length);
                 newStudents[students.length] = student;
@@ -52,7 +55,7 @@ public class StudentAge {
 
     @Override
     public String toString() {
-        return age +
-                " ->" + Arrays.toString(students);
+        return group +
+                " ->  " + (Arrays.toString(students));
     }
 }

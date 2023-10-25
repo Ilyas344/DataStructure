@@ -1,8 +1,8 @@
 package org.example.Service;
 
-import org.example.Collection.StudentAge;
-import org.example.Collection.StudentClass;
-import org.example.Collection.StudentFamily;
+import org.example.Collection.Impl.StudentAge;
+import org.example.Collection.Impl.StudentClass;
+import org.example.Collection.Impl.StudentFamily;
 import org.example.POJO.ItemRating;
 import org.example.POJO.Student;
 
@@ -34,15 +34,14 @@ public class Calculation {
         printAverage(10);
         printAverage(11);
         System.out.println("Поиск всех отличников, старше 14 лет");
-        for (int i = 15; i < 20; i++) {
-            printBest(i);
-        }
+        printBest();
         System.out.println("Поиск ученика по фамили (фамилия ученика задается через консоль)");
         printStudent();
     }
 
     //1) Вычисление средней оценки в старших классах (10 и 11)
     private void printAverage(int group) {
+
         Student[] students = studentClass.getStudents(group);
         double average = 0;
         for (Student student : students) {
@@ -56,8 +55,8 @@ public class Calculation {
     }
 
     //2) Поиск всех отличников, старше 14 лет
-    public void printBest(int age) {
-        Student[] students = studentAge.getStudents(age);
+    public void printBest() {
+        Student[] students = studentAge.getStudents();
         for (Student student : students) {
             if (student.getTotalScore() > 29) {
                 System.out.println(student);

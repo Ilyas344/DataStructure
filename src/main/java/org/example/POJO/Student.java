@@ -2,6 +2,8 @@ package org.example.POJO;
 
 import lombok.Data;
 
+import java.util.Arrays;
+
 @Data
 public class Student {
 
@@ -24,5 +26,14 @@ public class Student {
         for (ItemRating itemRating : itemRatings) {
             this.totalScore = this.totalScore + itemRating.getRating();
         }
+    }
+
+    @Override
+    public String toString() {
+        return "\nStudent{"+ family +" " +name + '\'' +
+                ", " + age +
+                " лет, группа " + group +
+                ", общий балл " + totalScore +
+                ", Рейтинг предметов " + Arrays.toString(itemRatings) +"}";
     }
 }

@@ -1,8 +1,9 @@
-package org.example.Collection;
+package org.example.Collection.Impl;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import org.example.Collection.StudentNameDataGroup;
 import org.example.POJO.Student;
 
 import java.util.Arrays;
@@ -10,7 +11,7 @@ import java.util.Arrays;
 @Getter
 @Setter
 @EqualsAndHashCode
-public class StudentFamily {
+public class StudentFamily implements StudentNameDataGroup {
     private char firstLetterOfFamily;
     private Student[] students;
 
@@ -27,6 +28,7 @@ public class StudentFamily {
         this.students = students;
     }
 
+    @Override
     public void addStudent(Student student) {
         if (student.getFamily().charAt(0) == firstLetterOfFamily) {
             Student[] newStudents = new Student[students.length + 1];
@@ -36,6 +38,7 @@ public class StudentFamily {
         }
     }
 
+    @Override
     public Student[] getStudents(String family) {
         Student[] students = new Student[0];
         for (Student student : this.students) {
@@ -49,8 +52,6 @@ public class StudentFamily {
             }
         }
         return students;
-
-
     }
 
     @Override
