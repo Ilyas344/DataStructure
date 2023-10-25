@@ -13,6 +13,7 @@ import java.util.Arrays;
 @EqualsAndHashCode
 public class StudentFamily implements StudentNameDataGroup {
     private char firstLetterOfFamily;
+    private String family;
     private Student[] students;
 
     public StudentFamily(char firstLetterOfFamily) {
@@ -20,7 +21,9 @@ public class StudentFamily implements StudentNameDataGroup {
         students = new Student[0];
     }
 
-    public StudentFamily() {
+    public StudentFamily(String family) {
+        this.firstLetterOfFamily = family.charAt(0);
+        this.students = new Student[0];
     }
 
     public StudentFamily(Student[] students) {
@@ -39,7 +42,7 @@ public class StudentFamily implements StudentNameDataGroup {
     }
 
     @Override
-    public Student[] getStudents(String family) {
+    public Student[] getStudents() {
         Student[] students = new Student[0];
         for (Student student : this.students) {
             if (student.getFamily().charAt(0) == firstLetterOfFamily) {

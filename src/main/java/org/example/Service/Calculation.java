@@ -67,10 +67,8 @@ public class Calculation {
 
     //3) Поиск ученика по фамили (фамилия ученика задается через консоль)
     public void printStudent() {
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Введите фамилию ученика");
-        String surname = sc.nextLine();
-        Student[] students = studentFamily.getStudents(surname);
+
+        Student[] students = studentFamily.getStudents();
         System.out.println(Arrays.toString(students) + "\n");
 
     }
