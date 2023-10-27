@@ -2,21 +2,25 @@ package org.example.Service;
 
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
-import lombok.RequiredArgsConstructor;
 import org.example.POJO.Student;
 
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
-@RequiredArgsConstructor
-public class Parser {
+public class FileDataLoader implements DataLoader {
+
+
     private final Mapper mapper = new Mapper();
-    private final Calculation calculation;
 
-    public void loadFile() {
-        Student student;
-        try {
-            CSVReader reader = new CSVReader(new FileReader("src/main/resources/students.csv"));
+    public FileDataLoader() {
+    }
+
+    @Override
+    public List<Student> load() {
+        List<Student> students = new ArrayList<>();
+        try (CSVReader reader = new CSVReader(new FileReader("src/main/resources/students.csv"))) {
             String[] nextLine;
             String[] item = new String[10];
             while ((nextLine = reader.readNext()) != null) {
@@ -26,21 +30,15 @@ public class Parser {
                     continue;
                 }
                 nextLine = separator(nextLine[0]);
-                student = mapper.mapper(nextLine, item);
-                calculation.getStudent(student);
-
+                students.add(mapper.mapper(nextLine, item));
             }
-            reader.close();
         } catch (IOException | CsvValidationException e) {
             throw new RuntimeException(e);
         }
-
+        return students;
     }
-
 
     private String[] separator(String string) {
         return string.split(";");
     }
-
-
 }

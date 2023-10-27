@@ -30,10 +30,10 @@ public class Student {
 
     @Override
     public String toString() {
-        return "\nStudent{"+ family +" " +name + '\'' +
+        return "Студент{" + family + " " + name + '\'' +
                 ", " + age +
                 " лет, группа " + group +
                 ", общий балл " + totalScore +
-                ", Рейтинг предметов " + Arrays.toString(itemRatings) +"}";
+                ", Рейтинг предметов " + Arrays.toString(itemRatings) + "}";
     }
 }

@@ -13,7 +13,7 @@ public class ItemRating {
     @Override
     public String toString() {
         return
-                " предмет='" + itemId +
-                        ", оценка=" + rating;
+                " предмет = " + itemId +
+                        ", оценка = " + rating;
     }
 }
