@@ -33,7 +33,7 @@ public class StudentDAOImpl implements StudentDAO {
     }
 
     @Override
-    public List<StudentAllExcellent getTopStudents(int age) {
+    public List<StudentAllExcellent> getTopStudents(int age) {
         return TransactionScript.getInstance().getExcellentStudentsOver14();
     }
 
