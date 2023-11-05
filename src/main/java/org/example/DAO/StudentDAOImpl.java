@@ -2,6 +2,7 @@ package org.example.DAO;
 
 
 import org.example.DTO.StudentAllExcellent;
+import org.example.DTO.StudentAverageScore;
 import org.example.DTO.StudentAverageScoreByFamily;
 import org.example.POJO.ItemRating;
 import org.example.POJO.Student;
@@ -40,6 +41,15 @@ public class StudentDAOImpl implements StudentDAO {
     @Override
     public List<StudentAverageScoreByFamily> getAverageScore(String family) {
         return TransactionScript.getInstance().getAverageGradeByFamily(family);
+    }
+    @Override
+    public List<StudentAverageScore> getAverageScores(int group){
+        return TransactionScript.getInstance().getAverageScores(group);
+    }
+
+    @Override
+    public int updateStudentRating(String family, String name, int group, String item, int newRating) {
+        return TransactionScript.getInstance().updateStudentRating(family,name,group, item,newRating);
     }
 
 
@@ -212,6 +222,51 @@ public class StudentDAOImpl implements StudentDAO {
             throw new RuntimeException(e);
         }
     }
+public List<StudentAverageScore> getAverageScores(int group){
+    String sql = "SELECT FAMILY, NAME, TOTAL_SCORE FROM STUDENTS WHERE group_number = ?";
+    try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+        preparedStatement.setInt(1, group);
+        ResultSet resultSet = preparedStatement.executeQuery();
+
+        List<StudentAverageScore> averageScore = new ArrayList<>();
+        while (resultSet.next()) {
+            StudentAverageScore studentAverageScoreDTO = new StudentAverageScore();
+            studentAverageScoreDTO.setFamily(resultSet.getString("family"));
+            studentAverageScoreDTO.setName(resultSet.getString("name"));
+            studentAverageScoreDTO.setAverageScore((resultSet.getDouble("total_score")) /4);
+
+            averageScore.add( studentAverageScoreDTO);
+        }
+
+        return averageScore;
+    } catch (SQLException e) {
+        throw new RuntimeException(e);
+    }
+}
+        public int updateStudentRating(String family, String name, int group, String item, int newRating) {
+            String sql = "UPDATE ITEM_RATINGS " +
+                    "SET rating = ? " +
+                    "WHERE student_id IN ( " +
+                    "    SELECT id " +
+                    "    FROM students " +
+                    "    WHERE family = ? AND name = ? AND group_number = ? " +
+                    ") " +
+                    "AND item = ?";
+
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setInt(1, newRating);
+                preparedStatement.setString(2, family);
+                preparedStatement.setString(3, name);
+                preparedStatement.setInt(4, group);
+                preparedStatement.setString(5, item);
+
+
+                return preparedStatement.executeUpdate();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
 }
 }
 

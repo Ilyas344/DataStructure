@@ -13,11 +13,11 @@ public class Mapper {
         int age = Integer.parseInt(strings[2]);
         int group = Integer.parseInt(strings[3]);
         List<ItemRating> list = new ArrayList<>();
-        ItemRatingDTO[] itemRating = new ItemRatingDTO[6];
-        List<ItemRatingDTO> list2 = new ArrayList<>();
+        ItemRating[] itemRating = new ItemRating[6];
+        List<ItemRating> list2 = new ArrayList<>();
         for (int i = 0; i < itemRating.length; i++) {
           //  itemRating[i] = new ItemRating();
-            itemRating[i] = new ItemRatingDTO();
+            itemRating[i] = new ItemRating();
             itemRating[i].setItemId(item[i + 4]);
             itemRating[i].setRating(Integer.parseInt(strings[i + 4]));
             list2.add(itemRating[i]);
