@@ -1,17 +1,17 @@
 package org.example.DAO;
 
-import org.example.DTO.StudentDTO;
-import org.example.POJO.ItemRating;
+import org.example.DTO.StudentAllExcellent;
+import org.example.DTO.StudentAverageScoreByFamily;
 import org.example.POJO.Student;
 
 import java.util.List;
 
 public interface StudentDAO {
 
-    void addStudent (StudentDTO student);
+    void addStudent (Student student);
     double getAverageRating (int group);
-    List<StudentDTO> getTopStudents (int age);
-    List<StudentDTO> getAverageScore (String family);
+    List<StudentAllExcellent> getTopStudents (int age);
+    List<StudentAverageScoreByFamily> getAverageScore (String family);
 
 
 }
