@@ -1,9 +1,5 @@
 package org.example.Service;
 
-import org.example.DAO.StudentDAO;
-import org.example.DAO.StudentDAOImpl;
-import org.example.DTO.ItemRatingDTO;
-import org.example.DTO.StudentDTO;
 import org.example.POJO.ItemRating;
 import org.example.POJO.Student;
 

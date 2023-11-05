@@ -1,8 +1,8 @@
 package org.example.DAO;
 
 
-import org.example.DTO.ItemRatingDTO;
-import org.example.DTO.StudentDTO;
+import org.example.DTO.StudentAllExcellent;
+import org.example.DTO.StudentAverageScoreByFamily;
 import org.example.POJO.ItemRating;
 import org.example.POJO.Student;
 
@@ -16,7 +16,7 @@ import java.util.List;
 public class StudentDAOImpl implements StudentDAO {
 
     @Override
-    public void addStudent(StudentDTO student) {
+    public void addStudent(Student student) {
         TransactionScript.getInstance().addStudent(student);
     }
 
@@ -33,12 +33,12 @@ public class StudentDAOImpl implements StudentDAO {
     }
 
     @Override
-    public List<StudentDTO> getTopStudents(int age) {
+    public List<StudentAllExcellent getTopStudents(int age) {
         return TransactionScript.getInstance().getExcellentStudentsOver14();
     }
 
     @Override
-    public List<StudentDTO> getAverageScore(String family) {
+    public List<StudentAverageScoreByFamily> getAverageScore(String family) {
         return TransactionScript.getInstance().getAverageGradeByFamily(family);
     }
 
@@ -63,7 +63,7 @@ public class StudentDAOImpl implements StudentDAO {
             return INSTANCE;
         }
 
-        public void addStudent(StudentDTO student) {
+        public void addStudent(Student student) {
             try {
                 connection.setAutoCommit(false);
 
@@ -90,7 +90,7 @@ public class StudentDAOImpl implements StudentDAO {
                         "INSERT INTO ITEM_RATINGS (student_id, item, rating) VALUES (?, ?, ?)",
                         Statement.RETURN_GENERATED_KEYS);
 
-                for (ItemRatingDTO itemRating : student.getItem()) {
+                for (ItemRating itemRating : student.getItemRatings()) {
                     addRating.setInt(1, student.getId());
                     addRating.setString(2, itemRating.getItemId());
                     addRating.setInt(3, itemRating.getRating());
@@ -136,23 +136,23 @@ public class StudentDAOImpl implements StudentDAO {
 
         }
 
-        public List<StudentDTO> getExcellentStudentsOver14() {
+        public List<StudentAllExcellent> getExcellentStudentsOver14() {
             String sql = "SELECT * FROM students " +
                     "WHERE total_score >29  AND age > 14;";
 
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
                 ResultSet resultSet = preparedStatement.executeQuery();
 
-                List<StudentDTO> excellentStudents = new ArrayList<>();
+                List<StudentAllExcellent> excellentStudents = new ArrayList<>();
                 while (resultSet.next()) {
-                    StudentDTO studentDTO = new StudentDTO();
-                    studentDTO.setId(resultSet.getInt("id"));
+                    StudentAllExcellent studentDTO = new StudentAllExcellent();
+
+
                     studentDTO.setFamily(resultSet.getString("family"));
                     studentDTO.setAge(resultSet.getInt("age"));
                     studentDTO.setName(resultSet.getString("name"));
-                    studentDTO.setGroup(resultSet.getInt("group_number"));
+
                     studentDTO.setTotalScore(resultSet.getInt("total_score"));
-                    studentDTO.setItem(getItemRatingDTO(studentDTO.getId()));
 
                     excellentStudents.add(studentDTO);
                 }
@@ -162,7 +162,7 @@ public class StudentDAOImpl implements StudentDAO {
             }
         }
 
-        public List<StudentDTO> getAverageGradeByFamily(String family) {
+        public List<StudentAverageScoreByFamily> getAverageGradeByFamily(String family) {
             String sql = "SELECT students.id, family, name, age, group_number, total_score, " +
                     "AVG(rating) AS average_grade " +
                     "FROM students " +
@@ -174,17 +174,14 @@ public class StudentDAOImpl implements StudentDAO {
                 preparedStatement.setString(1, family);
                 ResultSet resultSet = preparedStatement.executeQuery();
 
-                List<StudentDTO> students = new ArrayList<>();
+                List<StudentAverageScoreByFamily> students = new ArrayList<>();
                 while (resultSet.next()) {
 
-                    StudentDTO studentDTO = new StudentDTO();
-                    studentDTO.setId(resultSet.getInt("id"));
+                    StudentAverageScoreByFamily studentDTO = new StudentAverageScoreByFamily();
+
                     studentDTO.setFamily(resultSet.getString("family"));
-                    studentDTO.setAge(resultSet.getInt("age"));
                     studentDTO.setName(resultSet.getString("name"));
                     studentDTO.setGroup(resultSet.getInt("group_number"));
-                    studentDTO.setTotalScore(resultSet.getInt("total_score"));
-                    studentDTO.setItem(getItemRatingDTO(studentDTO.getId()));
                     students.add(studentDTO);
                 }
 
@@ -194,15 +191,15 @@ public class StudentDAOImpl implements StudentDAO {
             }
         }
 
-    public List<ItemRatingDTO> getItemRatingDTO(int id) {
+    public List<ItemRating> getItemRatingDTO(int id) {
         String sql = "SELECT * FROM ITEM_RATINGS WHERE student_id = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
 
-            List<ItemRatingDTO> itemRating = new ArrayList<>();
+            List<ItemRating> itemRating = new ArrayList<>();
             while (resultSet.next()) {
-                ItemRatingDTO itemRatingDTO = new ItemRatingDTO();
+                ItemRating itemRatingDTO = new ItemRating();
                 itemRatingDTO.setId(resultSet.getInt("id"));
                 itemRatingDTO.setItemId(resultSet.getString("item"));
                 itemRatingDTO.setRating(resultSet.getInt("rating"));

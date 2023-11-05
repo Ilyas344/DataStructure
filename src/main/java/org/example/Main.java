@@ -12,7 +12,7 @@ import org.example.StudentService.StudentService;
 
 public class Main {
     public static void main(String[] args) {
-        StudentService studentService = new StudentService(new FileDataLoader());
+        /*  StudentService studentService = new StudentService(new FileDataLoader());
         CommandBuilder commandBuilder = new CommandBuilder(studentService);
         Command command1 = commandBuilder.build("age");
         command1.execute();
@@ -30,11 +30,11 @@ public class Main {
                 new CalculationExcellentByAge(command1.execute(), 14);
         System.out.println("Вычисление средней оценки в старших классах (10 и 11)");
         calculating1.averageScore();
-      //  calculating2.averageScore();
+        calculating2.averageScore();
         System.out.println("Поиск ученика по фамилии (фамилия ученика задается через консоль)");
-      //  calculatingByFamily.byFamily();
+        calculatingByFamily.byFamily();
         System.out.println("Поиск всех отличников, старше 14 лет");
-     //   calculationExcellentByAge.ExcellentByAge();
+        calculationExcellentByAge.ExcellentByAge();*/
     }
 
 

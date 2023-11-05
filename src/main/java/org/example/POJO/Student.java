@@ -1,12 +1,15 @@
 package org.example.POJO;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Arrays;
 import java.util.List;
 
 @Data
+@NoArgsConstructor
 public class Student {
+    private int id;
 
     private String family;
 
