@@ -9,12 +9,17 @@ import java.util.List;
 
 public interface StudentDAO {
 
-    void addStudent (Student student);
-    double getAverageRating (int group);
-    List<StudentAllExcellent> getTopStudents (int age);
-    List<StudentAverageScoreByFamily> getAverageScore (String family);
+    void addStudent(Student student);
+
+    double getAverageRating(int group);
+
+    List<StudentAllExcellent> getTopStudents(int age);
+
+    List<StudentAverageScoreByFamily> getAverageScore(String family);
+
     List<StudentAverageScore> getAverageScores(int group);
+
     int updateStudentRating(String family, String name, int group, String item, int newRating);
 
 
-    }
+}

@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.example.DAO.StudentDAO;
 import org.example.DTO.StudentAverageScore;
 
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -23,25 +22,25 @@ public class StudentServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-            var mapper = new ObjectMapper();
-            int group = Integer.parseInt(req.getParameter("group_number"));
-            List<StudentAverageScore> averageScores = studentDAO.getAverageScores(group);
+        var mapper = new ObjectMapper();
+        int group = Integer.parseInt(req.getParameter("group_number"));
+        List<StudentAverageScore> averageScores = studentDAO.getAverageScores(group);
         try (var output = resp.getWriter()) {
             resp.setContentType("application/json");
             output.write(mapper.writeValueAsString(averageScores));
         }
     }
 
-        @Override
-        protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-            int group = req.getIntHeader("group");
-            String family = req.getParameter("family");
-            String name = req.getParameter("name");
-            String item = req.getParameter("item");
-            int score = req.getIntHeader("score");
+    @Override
+    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        int group = req.getIntHeader("group");
+        String family = req.getParameter("family");
+        String name = req.getParameter("name");
+        String item = req.getParameter("item");
+        int score = req.getIntHeader("score");
 
-            studentDAO.updateStudentRating(family, name, group,item, score);
-            resp.setStatus(HttpServletResponse.SC_OK);
-        }
+        studentDAO.updateStudentRating(family, name, group, item, score);
+        resp.setStatus(HttpServletResponse.SC_OK);
+    }
 
 }
